@@ -7,9 +7,9 @@ define ('DEVELOPMENT_ENVIRONMENT',true);
 
 /** Configuration Variables **/
 if (DEVELOPMENT_ENVIRONMENT){
-    define ('SITE_ROOT' , 'http://php-1.local/');
+    define ('SITE_ROOT' , 'http://php-2-1.local/');
 }else{
-    define ('SITE_ROOT' , 'http://php-1.local/'); //definieer live omgeving root
+    define ('SITE_ROOT' , 'http://php-2-1.local/'); //definieer live omgeving root
 }
 
 define('DS', '/');
