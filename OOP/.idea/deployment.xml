@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" serverName="php-2-1">
     <serverData>
       <paths name="Guido_1">
         <serverdata>
@@ -45,6 +45,13 @@
         </serverdata>
       </paths>
       <paths name="opdr04">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="php-2-1">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
