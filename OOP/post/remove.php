@@ -2,6 +2,7 @@
 define('ROOT', dirname(dirname(__FILE__)).'/');
 include('' . ROOT . 'config/config.php');
 include('' . ROOT . 'library/functions.php');
+include('' . ROOT . 'library/view.php');
 $view = new View();
 include('' . ROOT . 'database/post.php');
 $view->setSiteTitle('Remove Post');

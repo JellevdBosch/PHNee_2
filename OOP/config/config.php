@@ -28,4 +28,6 @@ define("DB_PASSWORD", ""); //defnieer database wachtwoord
 
 define("DB_NAME", "blog1"); //definieer database name
 
+define("ACCOUNT_USERNAME", "JELLE");
+define("ACCOUNT_PASSWORD", "JELLE");
 ?>

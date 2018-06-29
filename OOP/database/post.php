@@ -4,15 +4,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST) && !empty($_POST)) {
         if (isset($_POST['new_post'])) {
             $post = new Post();
-            $post_title = $_POST['post_title'];
-            $post_content = $_POST['post_content'];
+            $functions = new functions();
+            $post_title = $functions->test_input($_POST['post_title']);
+            $post_content = $functions->test_input($_POST['post_content']);
             $post_date = date("Y-m-d H:i:s");
             $post->createPost($post_title,$post_content,$post_date);
         } else if (isset($_POST['edit_post'])) {
             $post = new Post();
-            $post_id = $_POST['post_id'];
-            $post_title = $_POST['post_title'];
-            $post_content = $_POST['post_content'];
+            $functions = new functions();
+            $post_id = $functions->test_input($_POST['post_id']);
+            $post_title = $functions->test_input($_POST['post_title']);
+            $post_content = $functions->test_input($_POST['post_content']);
             $post_date = date("Y-m-d H:i:s");
             $post->updatePost($post_id, $post_title,$post_content,$post_date);
         }
@@ -76,6 +78,7 @@ class Post {
                 $content = $row['content'];
                 $date = $row['date'];
                 $this->setPost($id, $title, $content, $date);
+
                 echo $this->getPost();
             }
         } else {
@@ -84,23 +87,25 @@ class Post {
     }
 
     private function setPost($post_id,$post_title,$post_content,$post_date) {
-        $this->post_id = $post_id;
-        $this->post_title = $post_title;
-        $this->post_content = $post_content;
-        $this->post_date = $post_date;
+        $functions = new functions();
+        $this->post_id = $functions->test_input($post_id);
+        $this->post_title = $functions->test_input($post_title);
+        $this->post_content = $functions->test_input($post_content);
+        $this->post_date = $functions->test_input($post_date);
     }
 
     private function getPost() {
         if (!empty($this->post_id) && !empty($this->post_title) && !empty ($this->post_content) && !empty ($this->post_date)) {
-            return
-                "<article class = 'post'>
+            if (isset($_SESSION['session_id']) && $_SESSION['session_id'] != "") {
+                return
+                    "<article class = 'post'>
                 <span class='post-id' style='display: none;'>$this->post_id</span>
                 <h4 class='post-title'>"
-                . $this->post_title .
-                "</h4>
+                    . $this->post_title .
+                    "</h4>
                 <p class='post-content'>"
-                . $this->post_content .
-                "</p>
+                    . $this->post_content .
+                    "</p>
                 <div class='post-info'>
                     <small class='post-edit'>
                         <a href='" . SITE_ROOT . "post/edit.php/?edit_id=$this->post_id' class='post-edit-button'>Edit</a>
@@ -111,8 +116,25 @@ class Post {
                     <small class='post-date'>
                         ". $this->post_date ."
                     </small>
-                </div>   
+                </div>
             </article>";
+            } else {
+                return
+                    "<article class = 'post'>
+                <span class='post-id' style='display: none;'>$this->post_id</span>
+                <h4 class='post-title'>"
+                    . $this->post_title .
+                    "</h4>
+                <p class='post-content'>"
+                    . $this->post_content .
+                    "</p>
+                <div class='post-info'>
+                    <small class='post-date'>
+                        ". $this->post_date ."
+                    </small>
+                </div>
+            </article>";
+            }
         } else {
             die("Error receiving data!");
         }
@@ -151,3 +173,4 @@ class Post {
         exit();
     }
 }
+?>

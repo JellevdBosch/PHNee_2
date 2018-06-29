@@ -1,14 +1,18 @@
 <?php
 define('ROOT', dirname(dirname(__FILE__)).'/');
+require_once('' . ROOT . 'config/config.php');
+require_once('' . ROOT . 'library/functions.php');
+require_once('' . ROOT . 'library/view.php');
+require_once('' . ROOT . 'database/post.php');
 
-
-include('' . ROOT . 'config/config.php');
-include('' . ROOT . 'library/functions.php');
 $view = new View();
-include('' . ROOT . 'database/post.php');
-
 $fun = new functions();
 $url = $fun->curPage();
+if (!isset($_SESSION['session_id']) || $_SESSION[ 'session_id'] == "") {
+    if ($url != "" && $url != "login") {
+        header("Location: ".SITE_ROOT);
+    }
+}
 switch ($url) {
     case 'posts':
         $view->setSiteTitle('Blog Posts');
@@ -18,6 +22,12 @@ switch ($url) {
         break;
     case 'edit':
         $view->setSiteTitle('Edit Post');
+        break;
+    case 'login':
+        $view->setSiteTitle('Login');
+        break;
+    case 'logout':
+        $view->setSiteTitle('Logout');
         break;
     default:
         $view->setSiteTitle('Blog Posts');
@@ -54,8 +64,16 @@ switch ($url) {
     <nav class="main-nav">
         <div id="main-nav-wrapper">
             <ul id="main-nav-list">
-                <li class="main-nav-item"><a href='/'>Posts</a> </li>
-                <li class="main-nav-item"><a href='/post/new.php'>New Post</a></li>
+                <?php
+                if (isset($_SESSION['session_id']) && $_SESSION['session_id'] != "") {
+                    echo "<li class=\"main-nav-item\"><a href='/'>Posts</a></li>
+                          <li class=\"main-nav-item\"><a href='/post/new.php'>New Post</a></li>
+                          <li class=\"main-nav-item account true\"><a href=\"/account/logout.php\">Logout</a></li>";
+                } else {
+                    echo "<li class=\"main-nav-item\"><a href='/'>Posts</a></li>
+                          <li class=\"main-nav-item account false\"><a href=\"/account/login.php\">Login</a></li>";
+                }
+                ?>
             </ul>
         </div>
     </nav>

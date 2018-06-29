@@ -1,6 +1,12 @@
 <?php
 
 class functions {
+
+    public function createRandomID() {
+        $bytes = openssl_random_pseudo_bytes(20);
+        return bin2hex($bytes);
+    }
+
     public function curPageURL() {
         $pageURL = 'http://';
         if ($_SERVER["SERVER_PORT"] != "80") {
@@ -18,23 +24,30 @@ class functions {
         //http://php-1.local/  is root                                                //
         //$urlArray[0] == 'http:'                                                              //
         //$urlArray[1] == ''                                                                    //
-        //$urlArray[2] == 'php-1.local'                                                //
-        //$urlArray[3] == 'posts'                                                              //
+        //$urlArray[2] == 'php-2-1.local'                                                //
+        //$urlArray[3] == 'post'                                                              //
         //$urlArray[4] == 'new.php'                                                              //
         //**************************************************************************************//
         $start = count(explode('/', SITE_ROOT))-1;
         $dirName = $urlArray[$start];
-        if (empty($dirName) || $dirName == "" || $dirName != 'post') {
-            return 'posts';
+        if (empty($dirName) || $dirName == "" || $dirName != 'post' && $dirName != 'account') {
+            return '';
         } else {
             $fileName = (isset($urlArray[$start+1]) && $urlArray[$start+1] != '') ? $urlArray[$start+1] : '';
             $fileName = str_replace('.php', '', $fileName);
+            //die(var_dump($fileName));
             switch ($fileName) {
                 case 'new':
                     return 'new';
                     break;
                 case 'edit':
                     return 'edit';
+                    break;
+                case 'login':
+                    return 'login';
+                    break;
+                case 'logout':
+                    return 'logout';
                     break;
                 default:
                     return 'new';
@@ -50,35 +63,5 @@ class functions {
     }
 }
 
-class View {
-    public $data = array();
-    public function __construct() {
-        $this->_fun = new functions();
-        $this->data['site_title'] = '';
-        $this->data['errormessage'] = [];
-    }
-
-    public function Assign($variable = '', $value) {
-        if ($variable == ''){
-            $this->data = $value;
-        }else{
-            $this->data[$variable] = $value;
-        }
-    }
-
-    public function setSiteTitle($site_title){
-        $this->data['site_title'] = $site_title;
-    }
-
-    public function getErrors() {
-        return implode("", (array)$this->data['errormessage']);
-    }
-
-    public function getSiteTitle() {
-        return $this->data['site_title'];
-    }
-
-
-}
 
 ?>
