@@ -1,50 +1,38 @@
 <?php
-include("../database/posts.php");
+include_once("../includes/header.php");
+if (!empty($view->getErrors())) {
+    $errormessage = $view->getErrors();
+}else{
+    $errormessage = "";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET) && !empty($_GET)) {
+        if (isset($_GET['edit_id'])) {
+            $post = new Post();
+            $post_id = $_GET['edit_id'];
+            $edit_data[0] = $post->getPostData($post_id);
+        }
+    }
+}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Blog Takenlijst</title>
 
-    <meta name="author" content="Jelle van den Bosch" />
-    <meta name="description" content="Blog Takenlijst Procedureel PDO" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../css/main.css" type="text/css" />
-</head>
-<body>
-<div class="wrapper">
-    <header class="header">
-        <?php
-        include_once("../includes/header.php");
-        ?>
-        <nav class="main-nav">
-            <?php
-            include_once("../includes/main-nav.php");
-            ?>
-        </nav>
-    </header>
-    <section class="content">
-        <section id="edit-content-wrapper">
-            <article id="edit-content-title">
-                <h3>Edit a post</h3>
-            </article>
-            <article id="edit-content-form">
-                <?php
-                    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                        if (isset($_GET['edit_id'])) {
-                            getUpdateData();
-                        }
-                    }
-                ?>
-            </article>
-        </section>
+<section class="content">
+    <section id="posts-content-wrapper">
+        <article id="posts-content-title">
+            <h3>Edit Post</h3>
+        </article>
+        <article id="posts-content-form">
+            <form method="post" action="<?php ROOT . 'database/post.php' ?>" id="edit_post">
+                <input type='hidden' readonly='readonly' name='post_id' value='<?php echo $edit_data[0]['edit_id']; ?>'>
+                <input type="text" name="post_title" placeholder="Title" value="<?php echo $edit_data[0]['edit_title']; ?>" required><br><br>
+                <textarea rows="4"  name="post_content" placeholder="Content"  required><?php echo $edit_data[0]['edit_content']; ?></textarea><br><br><br>
+                <input value="Submit" type="submit" name="edit_post">
+            </form>
+        </article>
     </section>
-    <footer class="footer">
-        <?php
-        include_once("../includes/footer.php");
-        ?>
-    </footer>
-</div>
-</body>
-</html>
+</section>
+<?php
+include('../includes/footer.php');
+?>
+
