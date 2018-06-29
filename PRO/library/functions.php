@@ -1,13 +1,10 @@
 <?php
-
-class functions {
-
-    public function createRandomID() {
+function createRandomID() {
         $bytes = openssl_random_pseudo_bytes(20);
         return bin2hex($bytes);
     }
 
-    public function curPageURL() {
+    function curPageURL() {
         $pageURL = 'http://';
         if ($_SERVER["SERVER_PORT"] != "80") {
             $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
@@ -17,16 +14,16 @@ class functions {
         return $pageURL;
     }
 
-    public function curPage() {
+    function curPage() {
         $urlArray = array();
-        $urlArray = explode("/",$this->curPageURL());
+        $urlArray = explode("/",curPageURL());
         //**************************************************************************************//
         //http://php-1.local/  is root                                                //
         //$urlArray[0] == 'http:'                                                              //
         //$urlArray[1] == ''                                                                    //
         //$urlArray[2] == 'php-2-1.local'                                                //
         //$urlArray[3] == 'post'                                                              //
-        //$urlArray[4] == 'new.php'                                                              //
+        //$urlArray[4] == 'new.php'                                                             //
         //**************************************************************************************//
         $start = count(explode('/', SITE_ROOT))-1;
         $dirName = $urlArray[$start];
@@ -50,18 +47,18 @@ class functions {
                     return 'logout';
                     break;
                 default:
-                    return 'new';
+                    return '';
                     break;
             }
         }
     }
 
-    public function test_input($data) {
+    function test_input($data) {
         $data = trim($data);
         $data = htmlspecialchars($data);
         return $data;
     }
-}
+
 
 
 ?>

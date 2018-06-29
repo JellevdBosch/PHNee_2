@@ -2,35 +2,32 @@
 define('ROOT', dirname(dirname(__FILE__)).'/');
 require_once('' . ROOT . 'config/config.php');
 require_once('' . ROOT . 'library/functions.php');
-require_once('' . ROOT . 'library/view.php');
 require_once('' . ROOT . 'database/post.php');
 
-$view = new View();
-$fun = new functions();
-$url = $fun->curPage();
+$url = curPage();
 if (!isset($_SESSION['session_id']) || $_SESSION[ 'session_id'] == "") {
     if ($url != "" && $url != "login") {
         header("Location: ".SITE_ROOT);
     }
 }
 switch ($url) {
-    case 'posts':
-        $view->setSiteTitle('Blog Posts');
+    case '':
+        $title = 'Blog Posts';
         break;
     case 'new':
-        $view->setSiteTitle('New Post');
+        $title = 'New Post';
         break;
     case 'edit':
-        $view->setSiteTitle('Edit Post');
+        $title = 'Edit Post';
         break;
     case 'login':
-        $view->setSiteTitle('Login');
+        $title = 'Login';
         break;
     case 'logout':
-        $view->setSiteTitle('Logout');
+        $title = 'Logout';
         break;
     default:
-        $view->setSiteTitle('Blog Posts');
+        $title = 'Blog Posts';
         break;
 }
 ?>
@@ -43,7 +40,7 @@ switch ($url) {
     <!-- making sure the website can be installed as webapp on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5" />
 
-    <title>PHP | <?php echo $view->getSiteTitle();?></title>
+    <title>PHP | <?php echo $title;?></title>
 
     <meta name="description" content="Blog Takenlijst Procedureel PDO" />
     <script

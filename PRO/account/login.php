@@ -1,16 +1,8 @@
 <?php
 include_once("../includes/header.php");
-if (!empty($view->getErrors())) {
-    $errormessage = $view->getErrors();
-}else{
-    $errormessage = "";
-}
 ?>
     <section class="content">
         <section id="login-content-wrapper">
-            <?php
-            echo $errormessage;
-            ?>
             <div class="login-card">
                 <h1>Log-in</h1><br>
                 <form action="../database/account.php" method="post">

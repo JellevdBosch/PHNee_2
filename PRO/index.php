@@ -1,20 +1,14 @@
 <?php
 include_once("includes/header.php");
-if (!empty($view->getErrors())) {
-    $errormessage = $view->getErrors();
-}else{
-    $errormessage = "";
-}
 ?>
     <section class="content">
         <section id="main-content-wrapper">
-            <?php
-            echo $errormessage;
-            ?>
             <section id="posts-wrapper">
                 <?php
-                $post = new Post();
-                $post->readPosts();
+                readPosts();
+                if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset  ($_GET['remove_id'])) {
+                    deletePost();
+                }
                 ?>
             </section>
         </section>
